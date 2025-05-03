@@ -1,16 +1,16 @@
 package bg.tu_varna.sit.b1.f23621684.menu.commands;
 
+import bg.tu_varna.sit.b1.f23621684.contracts.CommandWithParameters;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
 
 import java.util.List;
-import java.util.Map;
 
 public class HelpCommand extends MenuCommand {
-    private final Map<String, MenuCommand> commands;
-    private Logger logger;
+    private final List<CommandWithParameters> commands;
+    private final Logger logger;
 
-    public HelpCommand(Logger logger, Map<String, MenuCommand> commands) {
+    public HelpCommand(Logger logger, List<CommandWithParameters> commands) {
         super("help", "prints this information");
         this.commands = commands;
         this.logger = logger;
@@ -20,7 +20,7 @@ public class HelpCommand extends MenuCommand {
     public void execute(List<String> input) {
         StringBuilder sb = new StringBuilder();
         sb.append("The following commands are supported:\n");
-        for (var command : commands.values()) {
+        for (var command : commands) {
             sb.append("- ");
             sb.append(command.toString());
             sb.append("\n\n");
