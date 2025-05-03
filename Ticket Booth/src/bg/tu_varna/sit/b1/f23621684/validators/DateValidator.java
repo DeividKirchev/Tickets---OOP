@@ -10,13 +10,14 @@ public class DateValidator extends BaseValidator {
 
 
     @Override
-    public boolean validate(String s) {
-        if (!super.validate(s)) return false;
+    public String validate(String s) {
+        var parentValidate = super.validate(s);
+        if (parentValidate != null) return parentValidate;
         try {
             LocalDate.parse(s, FORMATTER);
-            return true;
+            return null;
         } catch (DateTimeParseException e) {
-            return false;
+            return "Could not parse date. Invalid format.";
         }
     }
 }

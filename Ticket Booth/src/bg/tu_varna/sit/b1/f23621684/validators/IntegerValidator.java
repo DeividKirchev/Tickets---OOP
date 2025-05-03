@@ -5,13 +5,14 @@ public class IntegerValidator extends BaseValidator {
     private String name;
 
     @Override
-    public boolean validate(String s) {
-        if (!super.validate(s)) return false;
+    public String validate(String s) {
+        var parentValidate = super.validate(s);
+        if (parentValidate != null) return parentValidate;
         try {
             Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            return false;
+            return "Could not parse number.";
         }
-        return true;
+        return null;
     }
 }

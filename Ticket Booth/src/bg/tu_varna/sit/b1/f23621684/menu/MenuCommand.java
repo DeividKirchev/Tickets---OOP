@@ -74,11 +74,14 @@ public abstract class MenuCommand implements Command {
                 var passedParam = input.get(inputIndex);
                 var commandParam = commandParameters.get(paramIndex);
 
-                if (!commandParam.validate(passedParam)) {
+                var validation = commandParam.validate(passedParam);
+                if (validation != null) {
                     if (commandParam.isOptional()) {
                         paramIndex++;
                         continue;
                     } else {
+                        System.out.println("Failed to validate parameter " + commandParam);
+                        System.out.println("Validation error: " + validation);
                         return null;
                     }
                 }

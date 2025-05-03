@@ -7,7 +7,7 @@ public abstract class BaseValidator implements Validator {
     }
 
     @Override
-    public boolean validate(String s) {
-        return s != null;
+    public String validate(String s) {
+        return s != null ? null : "Missing value.";
     }
 }

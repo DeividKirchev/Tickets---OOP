@@ -48,9 +48,12 @@ public class MenuCommandParameter implements ValidatableParameter {
     }
 
     @Override
-    public boolean validate(String s) {
+    public String validate(String s) {
         for (var v : validators)
-            if (!v.validate(s)) return false;
-        return true;
+        {
+            var validation = v.validate(s);
+            if (validation != null) return validation;
+        }
+        return null;
     }
 }
