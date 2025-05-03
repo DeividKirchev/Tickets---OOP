@@ -1,7 +1,8 @@
 package bg.tu_varna.sit.b1.f23621684.menu;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.Command;
 import bg.tu_varna.sit.b1.f23621684.contracts.CommandParameter;
+import bg.tu_varna.sit.b1.f23621684.contracts.CommandWithParameters;
+import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
 import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class MenuCommand implements Command {
+public abstract class MenuCommand implements CommandWithParameters {
 
     private final String commandName;
     private final String commandDescription;
@@ -31,35 +32,19 @@ public abstract class MenuCommand implements Command {
         return commandDescription;
     }
 
+    @Override
     public List<ValidatableParameter> getCommandParameters() {
         return new ArrayList<>(commandParameters);
     }
 
+    @Override
     public MenuCommand addCommandParameter(ValidatableParameter cp) {
         this.commandParameters.add(cp);
         return this;
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(getCommandName());
-
-        for(var param : getCommandParameters())
-        {
-            sb.append(" ");
-            sb.append(param.toString());
-        }
-
-        sb.append("\n");
-        sb.append("       * ");
-        sb.append(getCommandDescription());
-
-        return sb.toString();
-    }
-
-    public Map<CommandParameter, String> execute(List<String> input) {
+    public Map<CommandParameter, String> getMappedParams(List<String> input) {
 
         int inputIndex = 0;
         int paramIndex = 0;
@@ -69,7 +54,7 @@ public abstract class MenuCommand implements Command {
         while (inputIndex < input.size()) {
             {
                 if (paramIndex >= commandParameters.size())
-                    return null;
+                    throw new InvalidParamException("Failed to match passed parameters. Please, check the requirements");
 
                 var passedParam = input.get(inputIndex);
                 var commandParam = commandParameters.get(paramIndex);
@@ -80,18 +65,43 @@ public abstract class MenuCommand implements Command {
                         paramIndex++;
                         continue;
                     } else {
-                        System.out.println("Failed to validate parameter " + commandParam);
-                        System.out.println("Validation error: " + validation);
-                        return null;
+                        throw new InvalidParamException("Failed parsing parameter " + commandParam + "\nMessage: " + validation);
                     }
                 }
 
                 matchedInput.put(commandParam, passedParam);
+
                 inputIndex++;
                 paramIndex++;
             }
         }
+
+        for (; paramIndex < commandParameters.size(); paramIndex++) {
+            var cmdParam = commandParameters.get(paramIndex);
+            if (cmdParam.isOptional())
+                continue;
+            throw new InvalidParamException("Missing parameters. Please, check the requirements.");
+        }
+
         return matchedInput;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getCommandName());
+
+        for (var param : getCommandParameters()) {
+            sb.append(" ");
+            sb.append(param.toString());
+        }
+
+        sb.append("\n");
+        sb.append("       * ");
+        sb.append(getCommandDescription());
+
+        return sb.toString();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class ExitCommand extends MenuCommand {
     }
 
     @Override
-    public Map<CommandParameter, String> execute(List<String> input) {
+    public void execute(List<String> input) {
         throw new ExitException("Exiting the program...");
     }
 }

@@ -1,6 +1,5 @@
 package bg.tu_varna.sit.b1.f23621684.menu.commands;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.CommandParameter;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommandParameter;
 import bg.tu_varna.sit.b1.f23621684.validators.DateValidator;
@@ -9,7 +8,6 @@ import bg.tu_varna.sit.b1.f23621684.validators.StringValidator;
 import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 
 import java.util.List;
-import java.util.Map;
 
 public class AddEventCommand extends MenuCommand {
     public AddEventCommand() {
@@ -28,9 +26,10 @@ public class AddEventCommand extends MenuCommand {
     }
 
     @Override
-    public Map<CommandParameter, String> execute(List<String> input) {
-        var data = super.execute(input);
-        if (data == null) return null;
-        return null;
+    public void execute(List<String> input) {
+        var data = super.getMappedParams(input);
+        if (data == null) return;
+
+        //TODO
     }
 }

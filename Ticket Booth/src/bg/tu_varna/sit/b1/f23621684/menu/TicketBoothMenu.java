@@ -1,6 +1,7 @@
 package bg.tu_varna.sit.b1.f23621684.menu;
 
 import bg.tu_varna.sit.b1.f23621684.exceptions.ExitException;
+import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.commands.AddEventCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.commands.ExitCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.commands.HelpCommand;
@@ -11,16 +12,19 @@ import java.util.*;
 
 public class TicketBoothMenu implements Menu {
     Map<String, MenuCommand> commands = new LinkedHashMap<>();
+    private Logger logger;
 
-    public TicketBoothMenu() {
+    public TicketBoothMenu(Logger logger) {
         List<MenuCommand> commandList = new ArrayList<>();
 
-        commandList.add(new HelpCommand(this.commands));
+        commandList.add(new HelpCommand(logger, this.commands));
         commandList.add(new AddEventCommand());
         commandList.add(new ExitCommand());
 
         for (var cmd : commandList)
             commands.put(cmd.getCommandName(), cmd);
+
+        this.logger = logger;
     }
 
     @Override
@@ -28,7 +32,7 @@ public class TicketBoothMenu implements Menu {
         Scanner scanner = new Scanner(System.in);
         try {
             while (true) {
-                System.out.print("> ");
+                logger.log("\n> ");
                 String line = scanner.nextLine().trim();
                 if (line.isEmpty()) continue;
 
@@ -47,14 +51,14 @@ public class TicketBoothMenu implements Menu {
                     } catch (ExitException e) {
                         throw e;
                     } catch (Exception ex) {
-                        System.out.println("Error executing command: " + ex.getMessage());
+                        logger.log("Error executing command: " + ex.getMessage() + "\n");
                     }
                 } else {
-                    System.out.println("Unknown command: " + cmdName);
+                    logger.log("Unknown command: " + cmdName + "\n");
                 }
             }
         } catch (ExitException e) {
-            System.out.println(e.getMessage());
+            logger.log(e.getMessage());
         }
     }
 }
