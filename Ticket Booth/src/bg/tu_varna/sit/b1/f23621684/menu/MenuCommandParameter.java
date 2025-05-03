@@ -1,13 +1,12 @@
 package bg.tu_varna.sit.b1.f23621684.menu;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.ICommandParameter;
-import bg.tu_varna.sit.b1.f23621684.validators.contracts.Validatable;
+import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 import bg.tu_varna.sit.b1.f23621684.validators.contracts.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuCommandParameter implements ICommandParameter {
+public class MenuCommandParameter implements ValidatableParameter {
 
     private String name;
     private boolean optional;
@@ -43,14 +42,15 @@ public class MenuCommandParameter implements ICommandParameter {
     }
 
     @Override
-    public void addValidator(Validator v) {
+    public MenuCommandParameter addValidator(Validator v) {
         this.validators.add(v);
+        return this;
     }
 
     @Override
-    public boolean validate() {
-        for (var v : getValidators())
-            if (!v.validate()) return false;
+    public boolean validate(String s) {
+        for (var v : validators)
+            if (!v.validate(s)) return false;
         return true;
     }
 }
