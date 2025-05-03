@@ -8,9 +8,9 @@ import java.util.List;
 
 public class MenuCommandParameter implements ValidatableParameter {
 
-    private String name;
-    private boolean optional;
-    private List<Validator> validators;
+    private final String name;
+    private final boolean optional;
+    private final List<Validator> validators;
 
     public MenuCommandParameter(String name, boolean optional) {
         this.name = name;
