@@ -2,28 +2,10 @@ package bg.tu_varna.sit.b1.f23621684.data;
 
 import bg.tu_varna.sit.b1.f23621684.models.Hall;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-public class HallList {
-
-    private List<Hall> list;
+public class HallList extends DataList<Hall> {
 
     private HallList() {
-        this.list = new ArrayList<>();
-    }
-
-    public List<Hall> getList() {
-        return new ArrayList<>(list);
-    }
-
-    public void clear() {
-        this.list.clear();
-    }
-    
-    public void addHalls(Collection<Hall> halls) {
-        this.list.addAll(halls);
+        super();
     }
 
     private static class SingletonHelper {
@@ -32,5 +14,10 @@ public class HallList {
 
     public static HallList getInstance() {
         return SingletonHelper.INSTANCE;
+    }
+
+    public Hall getById(int hallId) {
+        var hallOptional = getList().stream().filter(h -> h.getId() == hallId).findFirst();
+        return hallOptional.orElse(null);
     }
 }

@@ -23,8 +23,8 @@ public class Application {
 
             var hallListInstance = HallList.getInstance();
             hallListInstance.clear();
-            hallListInstance.addHalls(hallList);
-            
+            hallListInstance.add(hallList);
+
         } catch (IOException e) {
             logger.log("Error loading file: " + e.getMessage());
         }
@@ -33,6 +33,9 @@ public class Application {
 
     public static void main(String[] args) {
         loadHalls();
+
+        HallList hl = HallList.getInstance();
+
         Menu menu = new TicketBoothMenu(logger);
         menu.startMenu();
     }

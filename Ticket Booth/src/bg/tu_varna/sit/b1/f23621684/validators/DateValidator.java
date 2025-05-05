@@ -1,22 +1,18 @@
 package bg.tu_varna.sit.b1.f23621684.validators;
 
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import bg.tu_varna.sit.b1.f23621684.models.Date;
 
 public class DateValidator extends BaseValidator {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
 
     @Override
     public String validate(String s) {
         var parentValidate = super.validate(s);
         if (parentValidate != null) return parentValidate;
         try {
-            LocalDate.parse(s, FORMATTER);
+            (new Date()).fromString(s);
             return null;
-        } catch (DateTimeParseException e) {
+        } catch (IllegalArgumentException e) {
             return "Could not parse date. Invalid format.";
         }
     }

@@ -1,7 +1,6 @@
 package bg.tu_varna.sit.b1.f23621684.models;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Event {
@@ -42,10 +41,14 @@ public class Event {
     }
 
     public List<Ticket> getTickets() {
-        return tickets;
+        return new ArrayList<>(tickets);
     }
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public void addTicket(Ticket t) {
+        this.tickets.add(t);
     }
 }

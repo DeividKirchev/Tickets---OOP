@@ -1,8 +1,12 @@
 package bg.tu_varna.sit.b1.f23621684.menu.commands;
 
+import bg.tu_varna.sit.b1.f23621684.data.EventList;
+import bg.tu_varna.sit.b1.f23621684.data.HallList;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommandParameter;
+import bg.tu_varna.sit.b1.f23621684.models.Date;
+import bg.tu_varna.sit.b1.f23621684.models.Event;
 import bg.tu_varna.sit.b1.f23621684.validators.DateValidator;
 import bg.tu_varna.sit.b1.f23621684.validators.IntegerValidator;
 import bg.tu_varna.sit.b1.f23621684.validators.StringValidator;
@@ -40,10 +44,17 @@ public class AddEventCommand extends MenuCommand {
         if (data == null) return;
 
         var strDate = data.get(this.date);
+        var date = new Date();
+        date.fromString(strDate);
+
         var strHall = data.get(this.hall);
         var hallId = Integer.parseInt(strHall);
+        var hall = HallList.getInstance().getById(hallId);
 
         var name = data.get(this.name);
+
+        EventList eventList = EventList.getInstance();
+        eventList.add(new Event(hall, name, date));
 
         log("Successfully added event");
     }

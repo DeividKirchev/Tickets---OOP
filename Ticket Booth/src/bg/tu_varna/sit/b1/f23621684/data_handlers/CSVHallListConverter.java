@@ -50,3 +50,4 @@ public class CSVHallListConverter implements DataFormatConverter<List<Hall>, Str
         return sb.toString();
     }
 }
+

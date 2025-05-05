@@ -34,4 +34,8 @@ public class Ticket {
         // TODO: Generate code with row, seat, and hash
         this.code = code;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }
