@@ -1,5 +1,6 @@
 package bg.tu_varna.sit.b1.f23621684.menu.commands;
 
+import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommandParameter;
 import bg.tu_varna.sit.b1.f23621684.validators.DateValidator;
@@ -10,8 +11,12 @@ import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 import java.util.List;
 
 public class AddEventCommand extends MenuCommand {
-    public AddEventCommand() {
-        super("addevent", "add a new event on <date> with <name> in hall <hall>");
+    private ValidatableParameter date;
+    private ValidatableParameter hall;
+    private ValidatableParameter name;
+
+    public AddEventCommand(Logger logger) {
+        super("addevent", "add a new event on <date> with <name> in hall <hall>", logger);
 
         ValidatableParameter date = new MenuCommandParameter("date", false);
         date.addValidator(new DateValidator());
@@ -23,6 +28,10 @@ public class AddEventCommand extends MenuCommand {
         name.addValidator(new StringValidator());
 
         this.addCommandParameter(date).addCommandParameter(hall).addCommandParameter(name);
+
+        this.date = date;
+        this.hall = hall;
+        this.name = name;
     }
 
     @Override
@@ -30,6 +39,12 @@ public class AddEventCommand extends MenuCommand {
         var data = super.getMappedParams(input);
         if (data == null) return;
 
-        //TODO
+        var strDate = data.get(this.date);
+        var strHall = data.get(this.hall);
+        var hallId = Integer.parseInt(strHall);
+
+        var name = data.get(this.name);
+
+        log("Successfully added event");
     }
 }

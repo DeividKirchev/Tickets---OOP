@@ -15,14 +15,16 @@ public class TicketBoothMenu extends BaseMenu {
 
     public TicketBoothMenu(Logger logger) {
         super(logger);
-        List<CommandWithParameters> commandList = new ArrayList<>();
-
-        commandList.add(new HelpCommand(logger, commandList));
-        commandList.add(new AddEventCommand());
-        commandList.add(new ExitCommand());
-
-        addCommands(commandList);
     }
 
+    @Override
+    public List<CommandWithParameters> getCommands() {
+        List<CommandWithParameters> commandList = new ArrayList<>();
 
+        commandList.add(new HelpCommand(this.getLogger(), commandList));
+        commandList.add(new AddEventCommand(this.getLogger()));
+        commandList.add(new ExitCommand(this.getLogger()));
+
+        return commandList;
+    }
 }

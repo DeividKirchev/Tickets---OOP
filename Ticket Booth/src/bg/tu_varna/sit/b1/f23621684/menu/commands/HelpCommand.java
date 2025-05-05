@@ -8,12 +8,10 @@ import java.util.List;
 
 public class HelpCommand extends MenuCommand {
     private final List<CommandWithParameters> commands;
-    private final Logger logger;
 
     public HelpCommand(Logger logger, List<CommandWithParameters> commands) {
-        super("help", "prints this information");
+        super("help", "prints this information", logger);
         this.commands = commands;
-        this.logger = logger;
     }
 
     @Override
@@ -25,6 +23,6 @@ public class HelpCommand extends MenuCommand {
             sb.append(command.toString());
             sb.append("\n\n");
         }
-        logger.log(sb.toString());
+        log(sb.toString());
     }
 }

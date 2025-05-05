@@ -3,6 +3,7 @@ package bg.tu_varna.sit.b1.f23621684.menu;
 import bg.tu_varna.sit.b1.f23621684.contracts.CommandParameter;
 import bg.tu_varna.sit.b1.f23621684.contracts.CommandWithParameters;
 import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
+import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 
 import java.util.ArrayList;
@@ -10,16 +11,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class MenuCommand implements CommandWithParameters {
+public abstract class MenuCommand implements CommandWithParameters, Logger {
 
     private final String commandName;
     private final String commandDescription;
     private final List<ValidatableParameter> commandParameters;
+    private final Logger logger;
 
-    public MenuCommand(String commandName, String commandDescription) {
+    public MenuCommand(String commandName, String commandDescription, Logger logger) {
         this.commandName = commandName;
         this.commandDescription = commandDescription;
         this.commandParameters = new ArrayList<>();
+        this.logger = logger;
+    }
+
+    @Override
+    public void log(String message) {
+        this.logger.log(message);
     }
 
     @Override

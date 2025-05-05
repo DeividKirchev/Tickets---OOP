@@ -9,15 +9,23 @@ import java.util.*;
 
 public class BaseMenu implements Menu {
     private final Map<String, CommandWithParameters> commands = new LinkedHashMap<>();
+
     private final Logger logger;
 
     public BaseMenu(Logger logger) {
         this.logger = logger;
-    }
 
-    void addCommands(List<CommandWithParameters> commandList) {
+        var commandList = getCommands();
         for (var cmd : commandList)
             commands.put(cmd.getCommandName(), cmd);
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public List<CommandWithParameters> getCommands() {
+        return new ArrayList<>();
     }
 
     @Override
