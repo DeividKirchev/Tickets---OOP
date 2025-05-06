@@ -16,8 +16,4 @@ public class HallList extends DataList<Hall> {
         return SingletonHelper.INSTANCE;
     }
 
-    public Hall getById(int hallId) {
-        var hallOptional = getList().stream().filter(h -> h.getId() == hallId).findFirst();
-        return hallOptional.orElse(null);
-    }
 }

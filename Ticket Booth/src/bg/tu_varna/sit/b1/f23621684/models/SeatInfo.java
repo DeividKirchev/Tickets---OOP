@@ -1,0 +1,63 @@
+package bg.tu_varna.sit.b1.f23621684.models;
+
+import bg.tu_varna.sit.b1.f23621684.encoders.TicketEncoder;
+import bg.tu_varna.sit.b1.f23621684.exceptions.EventNotFound;
+
+import java.util.Objects;
+
+public class SeatInfo {
+    private Event event;
+    private int row;
+    private int seat;
+
+    public SeatInfo(Event event, int row, int seat) {
+        this.event = event;
+        this.row = row;
+        this.seat = seat;
+    }
+
+    public SeatInfo(SeatInfo si) {
+        this.event = si.getEvent();
+        this.row = getRow();
+        this.seat = getSeat();
+    }
+
+    public SeatInfo(String code) {
+        this(TicketEncoder.decode(code));
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof SeatInfo seatInfo)) return false;
+        return getRow() == seatInfo.getRow() && getSeat() == seatInfo.getSeat() && Objects.equals(getEvent(), seatInfo.getEvent());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEvent(), getRow(), getSeat());
+    }
+}

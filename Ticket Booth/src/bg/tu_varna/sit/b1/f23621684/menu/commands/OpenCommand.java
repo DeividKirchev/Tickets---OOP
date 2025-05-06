@@ -7,7 +7,7 @@ import bg.tu_varna.sit.b1.f23621684.files.TextFileHandler;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
 import bg.tu_varna.sit.b1.f23621684.menu.MenuCommandParameter;
-import bg.tu_varna.sit.b1.f23621684.validators.StringValidator;
+import bg.tu_varna.sit.b1.f23621684.validators.input.StringInputValidator;
 import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class OpenCommand extends MenuCommand {
         super("open", "opens <file>", logger);
 
         ValidatableParameter file = new MenuCommandParameter("file", false);
-        file.addValidator(new StringValidator());
+        file.addValidator(new StringInputValidator());
 
         addCommandParameter(file);
         this.file = file;

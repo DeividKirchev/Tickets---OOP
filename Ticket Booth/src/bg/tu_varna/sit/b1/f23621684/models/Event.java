@@ -2,6 +2,7 @@ package bg.tu_varna.sit.b1.f23621684.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Event {
     private Hall hall;
@@ -50,5 +51,16 @@ public class Event {
 
     public void addTicket(Ticket t) {
         this.tickets.add(t);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Event event)) return false;
+        return Objects.equals(getHall(), event.getHall()) && Objects.equals(getName(), event.getName()) && Objects.equals(getDate(), event.getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getHall(), getName(), getDate());
     }
 }

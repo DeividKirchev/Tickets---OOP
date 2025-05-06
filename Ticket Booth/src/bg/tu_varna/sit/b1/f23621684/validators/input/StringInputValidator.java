@@ -1,7 +1,7 @@
-package bg.tu_varna.sit.b1.f23621684.validators;
+package bg.tu_varna.sit.b1.f23621684.validators.input;
 
 
-public class StringValidator extends BaseValidator {
+public class StringInputValidator extends BaseInputValidator {
 
     @Override
     public String validate(String s) {

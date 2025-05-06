@@ -1,25 +1,26 @@
 package bg.tu_varna.sit.b1.f23621684.models;
 
-public class Ticket {
-    private int note;
-    private String code;
-    private boolean isPayed;
+import bg.tu_varna.sit.b1.f23621684.encoders.TicketEncoder;
 
-    public Ticket(int note, boolean isPayed) {
+import java.util.Objects;
+
+public class Ticket {
+    private String note;
+    private boolean isPayed;
+    private SeatInfo seatInfo;
+
+    public Ticket(String note, boolean isPayed, SeatInfo seatInfo) {
         this.note = note;
         this.isPayed = isPayed;
+        this.seatInfo = new SeatInfo(seatInfo.getEvent(), seatInfo.getRow(), seatInfo.getSeat());
     }
 
-    public int getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(int note) {
+    public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public boolean isPayed() {
@@ -30,12 +31,23 @@ public class Ticket {
         isPayed = payed;
     }
 
-    public void generateCode(String hash) {
-        // TODO: Generate code with row, seat, and hash
-        this.code = code;
+    public String generateCode() {
+        if (!this.isPayed()) return null;
+        return TicketEncoder.encode(this.seatInfo);
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public SeatInfo getSeatInfo() {
+        return this.seatInfo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Ticket ticket)) return false;
+        return Objects.equals(getSeatInfo(), ticket.getSeatInfo());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getSeatInfo());
     }
 }

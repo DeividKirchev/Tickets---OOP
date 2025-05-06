@@ -1,5 +1,5 @@
 package bg.tu_varna.sit.b1.f23621684.validators.contracts;
 
-public interface Validator {
-    String validate(String s);
+public interface LogicValidator {
+    void validate();
 }

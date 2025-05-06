@@ -2,10 +2,7 @@ package bg.tu_varna.sit.b1.f23621684.data_handlers;
 
 import bg.tu_varna.sit.b1.f23621684.data_handlers.contracts.DataFormatConverter;
 import bg.tu_varna.sit.b1.f23621684.exceptions.DataFormatException;
-import bg.tu_varna.sit.b1.f23621684.models.Date;
-import bg.tu_varna.sit.b1.f23621684.models.Event;
-import bg.tu_varna.sit.b1.f23621684.models.Hall;
-import bg.tu_varna.sit.b1.f23621684.models.Ticket;
+import bg.tu_varna.sit.b1.f23621684.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +42,11 @@ public class CSVEventListConverter implements DataFormatConverter<List<Event>, S
 
                 for (int i = 0; i < ticketCount; i++) {
                     int baseIndex = 6 + i * 3;
-                    int note = Integer.parseInt(tokens[baseIndex].trim());
+                    String note = tokens[baseIndex].trim();
                     String code = tokens[baseIndex + 1].trim();
                     boolean isPayed = Boolean.parseBoolean(tokens[baseIndex + 2].trim());
-                    Ticket ticket = new Ticket(note, isPayed);
-                    ticket.setCode(code);
+                    SeatInfo si = new SeatInfo(code);
+                    Ticket ticket = new Ticket(note, isPayed, si);
                     event.addTicket(ticket);
                 }
 
@@ -74,7 +71,7 @@ public class CSVEventListConverter implements DataFormatConverter<List<Event>, S
 
             for (Ticket ticket : event.getTickets()) {
                 sb.append(",").append(ticket.getNote())
-                        .append(",").append(ticket.getCode())
+                        .append(",").append(ticket.generateCode())
                         .append(",").append(ticket.isPayed());
             }
             sb.append(System.lineSeparator());

@@ -1,5 +1,7 @@
 package bg.tu_varna.sit.b1.f23621684.models;
 
+import java.util.Objects;
+
 public class Hall {
     private int id;
     private int rows;
@@ -33,5 +35,20 @@ public class Hall {
 
     public void setSeatsPerRow(int seatsPerRow) {
         this.seatsPerRow = seatsPerRow;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Hall hall)) return false;
+        return getId() == hall.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    public int getSeatsCount() {
+        return getSeatsPerRow() * getRows();
     }
 }

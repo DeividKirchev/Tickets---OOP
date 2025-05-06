@@ -1,9 +1,9 @@
-package bg.tu_varna.sit.b1.f23621684.validators;
+package bg.tu_varna.sit.b1.f23621684.validators.input;
 
 
 import bg.tu_varna.sit.b1.f23621684.models.Date;
 
-public class DateValidator extends BaseValidator {
+public class DateInputValidator extends BaseInputValidator {
 
     @Override
     public String validate(String s) {
@@ -11,9 +11,9 @@ public class DateValidator extends BaseValidator {
         if (parentValidate != null) return parentValidate;
         try {
             (new Date()).fromString(s);
-            return null;
         } catch (IllegalArgumentException e) {
             return "Could not parse date. Invalid format.";
         }
+        return null;
     }
 }
