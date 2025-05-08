@@ -36,16 +36,37 @@ public class BaseMenu implements Menu {
         Scanner scanner = new Scanner(System.in);
         try {
             while (true) {
+                List<String> parts = new ArrayList<>();
                 logger.log("\n> ");
                 String line = scanner.nextLine().trim();
-                if (line.isEmpty()) continue;
+                if (line.isEmpty()) return;
 
-                String[] parts = line.split("\\s+");
-                String cmdName = parts[0];
+                StringBuilder current = new StringBuilder();
+                boolean inQuotes = false;
 
-                List<String> params = parts.length > 1
-                        ? Arrays.asList(Arrays.copyOfRange(parts, 1, parts.length))
-                        : Collections.emptyList();
+                for (int i = 0; i < line.length(); i++) {
+                    char c = line.charAt(i);
+
+                    if (c == '"') {
+                        inQuotes = !inQuotes;
+                    } else if (Character.isWhitespace(c) && !inQuotes) {
+                        if (!current.isEmpty()) {
+                            parts.add(current.toString());
+                            current.setLength(0);
+                        }
+                    } else {
+                        current.append(c);
+                    }
+                }
+
+                if (!current.isEmpty()) {
+                    parts.add(current.toString());
+                }
+
+                if (parts.isEmpty()) return;
+
+                String cmdName = parts.getFirst();
+                List<String> params = parts.size() > 1 ? parts.subList(1, parts.size()) : Collections.emptyList();
 
                 ParametizedCommand match = commands.get(cmdName);
 

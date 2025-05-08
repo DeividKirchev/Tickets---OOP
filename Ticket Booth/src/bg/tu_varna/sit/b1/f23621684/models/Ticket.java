@@ -32,7 +32,6 @@ public class Ticket {
     }
 
     public String generateCode() {
-        if (!this.isPayed()) return null;
         return TicketEncoder.encode(this.seatInfo);
     }
 

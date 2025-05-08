@@ -1,7 +1,6 @@
 package bg.tu_varna.sit.b1.f23621684.models;
 
 import bg.tu_varna.sit.b1.f23621684.encoders.TicketEncoder;
-import bg.tu_varna.sit.b1.f23621684.exceptions.EventNotFound;
 
 import java.util.Objects;
 
@@ -22,8 +21,8 @@ public class SeatInfo {
         this.seat = getSeat();
     }
 
-    public SeatInfo(String code) {
-        this(TicketEncoder.decode(code));
+    public SeatInfo(Event event, String code) {
+        this(TicketEncoder.decode(code,event));
     }
 
     public Event getEvent() {

@@ -46,16 +46,16 @@ public class BuyCommand extends MenuCommand {
 
         var event = EventDataReporter.getEvent(name, date);
         if (event == null)
-            throw new EventNotFound("There is event with name " + name + " on date " + date);
+            throw new EventNotFound("There is no event with name " + name + " on date " + date);
 
         var ticket = TicketReporter.getTicket(event, row, seat);
+        if (ticket != null && ticket.isPayed())
+            throw new InvalidTicket("Ticked is already bought");
         if (ticket == null) {
             ticket = new Ticket("", true, new SeatInfo(event, row, seat));
             event.addTicket(ticket);
         }
-
-        if (ticket.isPayed())
-            throw new InvalidTicket("Ticked is already bought");
+        ticket.setPayed(true);
 
         log("Ticket bought. Unique Code: " + ticket.generateCode() + "\n");
     }

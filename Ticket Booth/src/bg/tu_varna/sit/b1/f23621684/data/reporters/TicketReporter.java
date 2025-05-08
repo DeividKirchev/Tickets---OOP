@@ -44,7 +44,7 @@ public class TicketReporter {
         List<Ticket> bookedTickets = new ArrayList<>();
         for (var event : events) {
             for (var ticket : event.getTickets()) {
-                if (!ticket.isPayed())
+                if (ticket.isPayed())
                     bookedTickets.add(ticket);
             }
         }

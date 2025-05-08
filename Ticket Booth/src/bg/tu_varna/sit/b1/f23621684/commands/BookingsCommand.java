@@ -1,8 +1,6 @@
 package bg.tu_varna.sit.b1.f23621684.commands;
 
-import bg.tu_varna.sit.b1.f23621684.data.reporters.EventDataReporter;
 import bg.tu_varna.sit.b1.f23621684.data.reporters.TicketReporter;
-import bg.tu_varna.sit.b1.f23621684.exceptions.EventNotFound;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
 import bg.tu_varna.sit.b1.f23621684.parameters.DateParameter;
 import bg.tu_varna.sit.b1.f23621684.parameters.StringParameter;
@@ -30,14 +28,10 @@ public class BookingsCommand extends MenuCommand {
         var date = this.date.getValue();
         var name = this.name.getValue();
 
-        var event = EventDataReporter.getEvent(name, date);
-        if (event == null)
-            throw new EventNotFound("There is event with name " + name + " on date " + date);
-
         var tickets = TicketReporter.getBookedTickets(date, name);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Showing information about all bookins:\n");
+        sb.append("Showing information about bookings:\n");
         if (tickets.isEmpty()) {
             sb.append("No booked tickets!");
         } else {
