@@ -50,4 +50,9 @@ public class TicketReporter {
         }
         return bookedTickets;
     }
+
+    public static Ticket getTicket(Event event, int row, int seat) {
+        var ticket = event.getTickets().stream().filter(t -> t.getSeatInfo().getRow() == row && t.getSeatInfo().getSeat() == seat).findFirst();
+        return ticket.orElse(null);
+    }
 }

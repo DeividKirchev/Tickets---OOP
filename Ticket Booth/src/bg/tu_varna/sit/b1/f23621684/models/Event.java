@@ -53,6 +53,10 @@ public class Event {
         this.tickets.add(t);
     }
 
+    public void removeTicket(Ticket t) {
+        this.tickets.remove(t);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Event event)) return false;
@@ -62,5 +66,20 @@ public class Event {
     @Override
     public int hashCode() {
         return Objects.hash(getHall(), getName(), getDate());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" | Event: ")
+                .append(getName())
+                .append("\n | Date: ")
+                .append(getDate())
+                .append("\n | Hall: ")
+                .append(getHall().getId())
+                .append("\n | Booked/Payed tickets: ")
+                .append(getTickets().size())
+                .append("\n");
+        return sb.toString();
     }
 }

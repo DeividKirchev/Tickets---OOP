@@ -1,24 +1,24 @@
 package bg.tu_varna.sit.b1.f23621684.commands;
 
 import bg.tu_varna.sit.b1.f23621684.data.EventList;
+import bg.tu_varna.sit.b1.f23621684.data.reporters.EventDataReporter;
 import bg.tu_varna.sit.b1.f23621684.exceptions.HallAlreadyBookedException;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
 import bg.tu_varna.sit.b1.f23621684.models.Event;
 import bg.tu_varna.sit.b1.f23621684.parameters.DateParameter;
-import bg.tu_varna.sit.b1.f23621684.parameters.HallIdParameter;
+import bg.tu_varna.sit.b1.f23621684.parameters.HallParameter;
 import bg.tu_varna.sit.b1.f23621684.parameters.StringParameter;
-import bg.tu_varna.sit.b1.f23621684.validators.AvailableHallValidator;
 
 public class AddEventCommand extends MenuCommand {
     private final DateParameter date;
-    private final HallIdParameter hall;
+    private final HallParameter hall;
     private final StringParameter name;
 
     public AddEventCommand(Menu menu) {
         super("addevent", "add a new event on <date> with <name> in hall <hall>", menu);
 
         DateParameter date = new DateParameter("date", false);
-        HallIdParameter hall = new HallIdParameter("hall", false);
+        HallParameter hall = new HallParameter("hall", false);
         StringParameter name = new StringParameter("name", false);
 
         this.addCommandParameter(date).addCommandParameter(hall).addCommandParameter(name);
@@ -36,13 +36,12 @@ public class AddEventCommand extends MenuCommand {
 
         var name = this.name.getValue();
 
-        var validator = new AvailableHallValidator(hall, date);
-        if (!validator.validate())
+        if (EventDataReporter.getEvent(hall, date) != null)
             throw new HallAlreadyBookedException("Hall is already booked for the date");
 
         EventList eventList = EventList.getInstance();
         eventList.add(new Event(hall, name, date));
 
-        log("Successfully added event");
+        log("Successfully added event\n");
     }
 }

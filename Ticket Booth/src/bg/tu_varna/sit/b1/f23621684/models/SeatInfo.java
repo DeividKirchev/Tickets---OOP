@@ -60,4 +60,19 @@ public class SeatInfo {
     public int hashCode() {
         return Objects.hash(getEvent(), getRow(), getSeat());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" | Event: ")
+                .append(this.getEvent().getName())
+                .append("\n | Date: ")
+                .append(this.getEvent().getDate())
+                .append("\n | Row: ")
+                .append(this.getRow())
+                .append("\n | Seat: ")
+                .append(this.getSeat())
+                .append("\n");
+        return sb.toString();
+    }
 }

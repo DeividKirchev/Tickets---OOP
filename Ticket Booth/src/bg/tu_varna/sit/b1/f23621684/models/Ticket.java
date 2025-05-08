@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Ticket {
     private String note;
     private boolean isPayed;
-    private SeatInfo seatInfo;
+    private final SeatInfo seatInfo;
 
     public Ticket(String note, boolean isPayed, SeatInfo seatInfo) {
         this.note = note;
@@ -49,5 +49,17 @@ public class Ticket {
     @Override
     public int hashCode() {
         return Objects.hashCode(getSeatInfo());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getSeatInfo().toString())
+                .append(" | Note: ")
+                .append(this.getNote())
+                .append("\n");
+
+        return sb.toString();
     }
 }

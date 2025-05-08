@@ -14,6 +14,6 @@ public class SaveCommand extends MenuCommand {
 
         SaveAsCommand.saveAs(filePath);
 
-        log("Content saved to file successfuly;");
+        log("Content saved to file successfully;");
     }
 }
