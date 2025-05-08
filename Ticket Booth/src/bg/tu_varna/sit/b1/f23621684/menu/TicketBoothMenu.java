@@ -1,10 +1,8 @@
 package bg.tu_varna.sit.b1.f23621684.menu;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.CommandWithParameters;
+import bg.tu_varna.sit.b1.f23621684.commands.*;
+import bg.tu_varna.sit.b1.f23621684.commands.contracts.ParametizedCommand;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
-import bg.tu_varna.sit.b1.f23621684.menu.commands.AddEventCommand;
-import bg.tu_varna.sit.b1.f23621684.menu.commands.ExitCommand;
-import bg.tu_varna.sit.b1.f23621684.menu.commands.HelpCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +16,16 @@ public class TicketBoothMenu extends BaseMenu {
     }
 
     @Override
-    public List<CommandWithParameters> getCommands() {
-        List<CommandWithParameters> commandList = new ArrayList<>();
+    public List<ParametizedCommand> getCommands() {
+        List<ParametizedCommand> commandList = new ArrayList<>();
 
-        commandList.add(new HelpCommand(this.getLogger(), commandList));
-        commandList.add(new AddEventCommand(this.getLogger()));
-        commandList.add(new ExitCommand(this.getLogger()));
+        commandList.add(new HelpCommand(this));
+        commandList.add(new OpenCommand(this));
+        commandList.add(new CloseCommand(this));
+        commandList.add(new SaveCommand(this));
+        commandList.add(new SaveAsCommand(this));
+        commandList.add(new AddEventCommand(this));
+        commandList.add(new ExitCommand(this));
 
         return commandList;
     }

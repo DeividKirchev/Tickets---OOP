@@ -1,37 +1,30 @@
-package bg.tu_varna.sit.b1.f23621684.menu.commands;
+package bg.tu_varna.sit.b1.f23621684.commands;
 
 import bg.tu_varna.sit.b1.f23621684.data.EventList;
 import bg.tu_varna.sit.b1.f23621684.data_handlers.CSVEventListConverter;
 import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
+import bg.tu_varna.sit.b1.f23621684.exceptions.NoOpenFileException;
 import bg.tu_varna.sit.b1.f23621684.files.TextFileHandler;
-import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
-import bg.tu_varna.sit.b1.f23621684.menu.MenuCommand;
-import bg.tu_varna.sit.b1.f23621684.menu.MenuCommandParameter;
-import bg.tu_varna.sit.b1.f23621684.validators.input.StringInputValidator;
-import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
+import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
+import bg.tu_varna.sit.b1.f23621684.parameters.StringParameter;
 
 import java.io.IOException;
-import java.util.List;
 
 public class OpenCommand extends MenuCommand {
-    private ValidatableParameter file;
+    private final StringParameter file;
 
-    public OpenCommand(Logger logger) {
-        super("open", "opens <file>", logger);
+    public OpenCommand(Menu menu) {
+        super("open", "opens <file>", menu);
 
-        ValidatableParameter file = new MenuCommandParameter("file", false);
-        file.addValidator(new StringInputValidator());
-
+        StringParameter file = new StringParameter("file", false);
         addCommandParameter(file);
         this.file = file;
     }
 
     @Override
-    public void execute(List<String> input) {
-        var params = super.getMappedParams(input);
-        if (params == null) return;
+    public void handleExecute() {
 
-        var filePath = params.get(file);
+        var filePath = file.getValue();
 
         var fileHandler = new TextFileHandler();
         try {
@@ -44,6 +37,7 @@ public class OpenCommand extends MenuCommand {
             throw new InvalidParamException("Error loading file: " + filePath);
         }
 
+        getMenu().setFilePath(filePath);
         log("File opened and content loaded.");
     }
 }

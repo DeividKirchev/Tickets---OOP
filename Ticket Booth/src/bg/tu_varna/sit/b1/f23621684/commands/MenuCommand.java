@@ -1,33 +1,36 @@
-package bg.tu_varna.sit.b1.f23621684.menu;
+package bg.tu_varna.sit.b1.f23621684.commands;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.CommandParameter;
-import bg.tu_varna.sit.b1.f23621684.contracts.CommandWithParameters;
+import bg.tu_varna.sit.b1.f23621684.commands.contracts.ParametizedCommand;
+import bg.tu_varna.sit.b1.f23621684.exceptions.DataParsingException;
 import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
-import bg.tu_varna.sit.b1.f23621684.validators.contracts.ValidatableParameter;
+import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
+import bg.tu_varna.sit.b1.f23621684.parameters.BaseCommandParameter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public abstract class MenuCommand implements CommandWithParameters, Logger {
+public abstract class MenuCommand implements ParametizedCommand, Logger {
 
     private final String commandName;
     private final String commandDescription;
-    private final List<ValidatableParameter> commandParameters;
-    private final Logger logger;
+    private final List<BaseCommandParameter> commandParameters;
+    private final Menu menu;
 
-    public MenuCommand(String commandName, String commandDescription, Logger logger) {
+    public MenuCommand(String commandName, String commandDescription, Menu menu) {
         this.commandName = commandName;
         this.commandDescription = commandDescription;
         this.commandParameters = new ArrayList<>();
-        this.logger = logger;
+        this.menu = menu;
     }
 
     @Override
     public void log(String message) {
-        this.logger.log(message);
+        this.menu.getLogger().log(message);
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     @Override
@@ -41,23 +44,22 @@ public abstract class MenuCommand implements CommandWithParameters, Logger {
     }
 
     @Override
-    public List<ValidatableParameter> getCommandParameters() {
+    public List<BaseCommandParameter> getCommandParameters() {
         return new ArrayList<>(commandParameters);
     }
 
     @Override
-    public MenuCommand addCommandParameter(ValidatableParameter cp) {
+    public MenuCommand addCommandParameter(BaseCommandParameter cp) {
         this.commandParameters.add(cp);
         return this;
     }
 
     @Override
-    public Map<CommandParameter, String> getMappedParams(List<String> input) {
+    public void setParams(List<String> input) {
 
         int inputIndex = 0;
         int paramIndex = 0;
 
-        Map<CommandParameter, String> matchedInput = new HashMap<>();
 
         while (inputIndex < input.size()) {
             {
@@ -67,17 +69,16 @@ public abstract class MenuCommand implements CommandWithParameters, Logger {
                 var passedParam = input.get(inputIndex);
                 var commandParam = commandParameters.get(paramIndex);
 
-                var validation = commandParam.validate(passedParam);
-                if (validation != null) {
+                try {
+                    commandParam.extract(passedParam);
+                } catch (DataParsingException e) {
                     if (commandParam.isOptional()) {
                         paramIndex++;
                         continue;
                     } else {
-                        throw new InvalidParamException("Failed parsing parameter " + commandParam + "\nMessage: " + validation);
+                        throw new InvalidParamException("Failed parsing parameter " + commandParam + "\nMessage: " + e.getMessage());
                     }
                 }
-
-                matchedInput.put(commandParam, passedParam);
 
                 inputIndex++;
                 paramIndex++;
@@ -91,7 +92,6 @@ public abstract class MenuCommand implements CommandWithParameters, Logger {
             throw new InvalidParamException("Missing parameters. Please, check the requirements.");
         }
 
-        return matchedInput;
     }
 
     @Override
@@ -123,4 +123,12 @@ public abstract class MenuCommand implements CommandWithParameters, Logger {
     public final int hashCode() {
         return getClass().hashCode();
     }
+
+    @Override
+    public void execute(List<String> params) {
+        setParams(params);
+        handleExecute();
+    }
+
+    protected abstract void handleExecute();
 }
