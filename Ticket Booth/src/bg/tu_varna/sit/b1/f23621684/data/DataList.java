@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class DataList<T> {
-    private List<T> list;
+    private final List<T> list;
 
     public DataList() {
         list = new ArrayList<>();

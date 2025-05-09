@@ -65,7 +65,12 @@ public class EventDataReporter {
         return getList().stream().sorted(Comparator.comparing(o -> o.getTickets().size())).limit(limit).toList();
     }
 
-    public static List<Event> getAllUnderWatchRatio(float ratio) {
-        return getList().stream().filter(e -> e.getTickets().size() / ((float) (e.getHall().getSeatsCount())) <= ratio).toList();
+    public static List<Event> getAllUnderWatchRatio(float ratio, List<Event> events) {
+        return events.stream().filter(e -> e.getTickets().size() / ((float) (e.getHall().getSeatsCount())) <= ratio).toList();
+    }
+
+    public static List<Event> getAllUnderWatchRatio(float ratio, Date from, Date to) {
+        var events = getEvents(from, to);
+        return getAllUnderWatchRatio(ratio, events);
     }
 }

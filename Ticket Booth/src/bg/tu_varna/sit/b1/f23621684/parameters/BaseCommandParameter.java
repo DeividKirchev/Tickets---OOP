@@ -1,9 +1,8 @@
 package bg.tu_varna.sit.b1.f23621684.parameters;
 
-import bg.tu_varna.sit.b1.f23621684.contracts.CommandParameter;
-import bg.tu_varna.sit.b1.f23621684.extractors.contracts.Extractor;
+import bg.tu_varna.sit.b1.f23621684.parameters.contracts.CommandParameter;
 
-public abstract class BaseCommandParameter implements CommandParameter, Extractor {
+public abstract class BaseCommandParameter implements CommandParameter {
     private final String name;
     private final boolean optional;
 

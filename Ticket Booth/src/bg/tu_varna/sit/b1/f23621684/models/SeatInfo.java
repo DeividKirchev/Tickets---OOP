@@ -17,8 +17,8 @@ public class SeatInfo {
 
     public SeatInfo(SeatInfo si) {
         this.event = si.getEvent();
-        this.row = getRow();
-        this.seat = getSeat();
+        this.row = si.getRow();
+        this.seat = si.getSeat();
     }
 
     public SeatInfo(Event event, String code) {

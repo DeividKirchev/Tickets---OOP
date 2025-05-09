@@ -5,7 +5,7 @@ import bg.tu_varna.sit.b1.f23621684.exceptions.DataParsingException;
 import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
-import bg.tu_varna.sit.b1.f23621684.parameters.BaseCommandParameter;
+import bg.tu_varna.sit.b1.f23621684.parameters.contracts.CommandParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public abstract class MenuCommand implements ParametizedCommand, Logger {
 
     private final String commandName;
     private final String commandDescription;
-    private final List<BaseCommandParameter> commandParameters;
+    private final List<CommandParameter> commandParameters;
     private final Menu menu;
 
     public MenuCommand(String commandName, String commandDescription, Menu menu) {
@@ -44,12 +44,12 @@ public abstract class MenuCommand implements ParametizedCommand, Logger {
     }
 
     @Override
-    public List<BaseCommandParameter> getCommandParameters() {
+    public List<CommandParameter> getCommandParameters() {
         return new ArrayList<>(commandParameters);
     }
 
     @Override
-    public MenuCommand addCommandParameter(BaseCommandParameter cp) {
+    public MenuCommand addCommandParameter(CommandParameter cp) {
         this.commandParameters.add(cp);
         return this;
     }

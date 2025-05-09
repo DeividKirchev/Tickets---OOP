@@ -3,6 +3,7 @@ package bg.tu_varna.sit.b1.f23621684.commands;
 import bg.tu_varna.sit.b1.f23621684.data.reporters.EventDataReporter;
 import bg.tu_varna.sit.b1.f23621684.data.reporters.TicketReporter;
 import bg.tu_varna.sit.b1.f23621684.exceptions.EventNotFound;
+import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidSeatException;
 import bg.tu_varna.sit.b1.f23621684.exceptions.SeatAlreadyBooked;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
 import bg.tu_varna.sit.b1.f23621684.models.SeatInfo;
@@ -56,6 +57,13 @@ public class BookCommand extends MenuCommand {
         var ticket = TicketReporter.getTicket(event, row, seat);
         if (ticket != null)
             throw new SeatAlreadyBooked("Seat is already booked");
+
+        var hall = event.getHall();
+        if (hall.getRows() < row)
+            throw new InvalidSeatException("Hall does not have row " + row);
+
+        if (hall.getSeatsPerRow() < seat)
+            throw new InvalidSeatException("Hall has only  " + hall.getSeatsPerRow() + " seats per row");
 
         ticket = new Ticket(note, false, new SeatInfo(event, row, seat));
 
