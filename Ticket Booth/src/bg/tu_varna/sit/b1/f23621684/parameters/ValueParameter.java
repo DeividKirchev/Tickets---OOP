@@ -30,4 +30,9 @@ public abstract class ValueParameter<T> extends BaseCommandParameter implements 
     public ValueExtractor<T> getExtractor() {
         return extractor;
     }
+
+    @Override
+    public void clear() {
+        this.setValue(null);
+    }
 }

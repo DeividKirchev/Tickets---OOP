@@ -38,19 +38,6 @@ public class TicketReporter {
         return bookedTickets;
     }
 
-    public static List<Ticket> getPayedTickets(Date from, Date to, Hall hall) {
-        var events = EventDataReporter.getEvents(from, to, hall);
-
-        List<Ticket> bookedTickets = new ArrayList<>();
-        for (var event : events) {
-            for (var ticket : event.getTickets()) {
-                if (ticket.isPayed())
-                    bookedTickets.add(ticket);
-            }
-        }
-        return bookedTickets;
-    }
-
     public static Ticket getTicket(Event event, int row, int seat) {
         var ticket = event.getTickets().stream().filter(t -> t.getSeatInfo().getRow() == row && t.getSeatInfo().getSeat() == seat).findFirst();
         return ticket.orElse(null);

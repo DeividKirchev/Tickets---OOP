@@ -44,7 +44,7 @@ public class UnbookCommand extends MenuCommand {
 
         var event = EventDataReporter.getEvent(name, date);
         if (event == null)
-            throw new EventNotFound("There is event with name " + name + " on date " + date);
+            throw new EventNotFound("There is no event with name " + name + " on date " + date);
 
         var ticket = TicketReporter.getTicket(event, row, seat);
         if (ticket == null)

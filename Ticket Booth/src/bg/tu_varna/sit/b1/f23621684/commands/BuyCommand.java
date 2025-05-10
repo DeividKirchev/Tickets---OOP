@@ -49,12 +49,6 @@ public class BuyCommand extends MenuCommand {
         if (event == null)
             throw new EventNotFound("There is no event with name " + name + " on date " + date);
 
-        var hall = event.getHall();
-        if (hall.getRows() < row)
-            throw new InvalidSeatException("Hall does not have row " + row);
-
-        if (hall.getSeatsPerRow() < seat)
-            throw new InvalidSeatException("Hall has only  " + hall.getSeatsPerRow() + " seats per row");
 
         var ticket = TicketReporter.getTicket(event, row, seat);
         if (ticket != null && ticket.isPayed())

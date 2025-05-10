@@ -3,6 +3,7 @@ package bg.tu_varna.sit.b1.f23621684.data_handlers;
 import bg.tu_varna.sit.b1.f23621684.data.reporters.HallDataReporter;
 import bg.tu_varna.sit.b1.f23621684.data_handlers.contracts.DataFormatConverter;
 import bg.tu_varna.sit.b1.f23621684.exceptions.DataFormatException;
+import bg.tu_varna.sit.b1.f23621684.exceptions.SeatAlreadyBooked;
 import bg.tu_varna.sit.b1.f23621684.models.*;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ public class CSVEventListConverter implements DataFormatConverter<List<Event>, S
 
             } catch (NumberFormatException e) {
                 throw new DataFormatException("Invalid format at line " + lineNumber + ": " + line);
+            } catch (SeatAlreadyBooked e) {
+                throw new DataFormatException("Invalid ticket at line " + lineNumber + ": " + line);
             }
         }
         return events;

@@ -3,6 +3,7 @@ package bg.tu_varna.sit.b1.f23621684.commands;
 import bg.tu_varna.sit.b1.f23621684.commands.contracts.ParametizedCommand;
 import bg.tu_varna.sit.b1.f23621684.exceptions.DataParsingException;
 import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidParamException;
+import bg.tu_varna.sit.b1.f23621684.exceptions.NoOpenFileException;
 import bg.tu_varna.sit.b1.f23621684.loggers.contracts.Logger;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
 import bg.tu_varna.sit.b1.f23621684.parameters.contracts.CommandParameter;
@@ -56,6 +57,9 @@ public abstract class MenuCommand implements ParametizedCommand, Logger {
 
     @Override
     public void setParams(List<String> input) {
+
+        for(var param: getCommandParameters())
+            param.clear();
 
         int inputIndex = 0;
         int paramIndex = 0;
@@ -124,9 +128,14 @@ public abstract class MenuCommand implements ParametizedCommand, Logger {
         return getClass().hashCode();
     }
 
+    public boolean requiresOpenedFile(){return true;}
+
     @Override
     public void execute(List<String> params) {
         setParams(params);
+        if(requiresOpenedFile())
+            if(this.menu.getFilePath() == null)
+                throw new NoOpenFileException("No file is currently open!");
         handleExecute();
     }
 

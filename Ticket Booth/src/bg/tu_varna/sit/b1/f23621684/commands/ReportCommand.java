@@ -1,6 +1,6 @@
 package bg.tu_varna.sit.b1.f23621684.commands;
 
-import bg.tu_varna.sit.b1.f23621684.data.reporters.TicketReporter;
+import bg.tu_varna.sit.b1.f23621684.data.reporters.EventDataReporter;
 import bg.tu_varna.sit.b1.f23621684.menu.contracts.Menu;
 import bg.tu_varna.sit.b1.f23621684.parameters.DateParameter;
 import bg.tu_varna.sit.b1.f23621684.parameters.HallParameter;
@@ -32,16 +32,16 @@ public class ReportCommand extends MenuCommand {
         var to = this.to.getValue();
         var hall = this.hall.getValue();
 
-        var tickets = TicketReporter.getPayedTickets(from, to, hall);
+        var events = EventDataReporter.getReport(from, to, hall);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(" Payed tickets:\n");
+        sb.append("Event Report:\n");
 
-        if (tickets.isEmpty()) {
-            sb.append("No payed tickets for period");
+        if (events.isEmpty()) {
+            sb.append("No events found");
         } else {
-            for (var ticket : tickets) {
-                sb.append("=== Payed ticket ===").append(ticket.toString());
+            for (var event : events) {
+                sb.append("=== Event ===\n").append(event.toString());
             }
         }
 

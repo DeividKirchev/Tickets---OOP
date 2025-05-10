@@ -10,6 +10,11 @@ public class HelpCommand extends MenuCommand {
     }
 
     @Override
+    public boolean requiresOpenedFile() {
+        return false;
+    }
+
+    @Override
     public void handleExecute() {
         StringBuilder sb = new StringBuilder();
         sb.append("The following commands are supported:\n");

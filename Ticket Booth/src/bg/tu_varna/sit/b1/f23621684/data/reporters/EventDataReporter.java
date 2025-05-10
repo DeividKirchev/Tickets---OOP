@@ -1,9 +1,11 @@
 package bg.tu_varna.sit.b1.f23621684.data.reporters;
 
 import bg.tu_varna.sit.b1.f23621684.data.EventList;
+import bg.tu_varna.sit.b1.f23621684.data.dto.EventDTO;
 import bg.tu_varna.sit.b1.f23621684.models.Date;
 import bg.tu_varna.sit.b1.f23621684.models.Event;
 import bg.tu_varna.sit.b1.f23621684.models.Hall;
+import bg.tu_varna.sit.b1.f23621684.models.Ticket;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -62,7 +64,7 @@ public class EventDataReporter {
     }
 
     public static List<Event> getMostWatched(int limit) {
-        return getList().stream().sorted(Comparator.comparing(o -> o.getTickets().size())).limit(limit).toList();
+        return getList().stream().sorted(Comparator.comparingInt((Event o) -> o.getTickets().size()).reversed()).limit(limit).toList();
     }
 
     public static List<Event> getAllUnderWatchRatio(float ratio, List<Event> events) {
@@ -72,5 +74,20 @@ public class EventDataReporter {
     public static List<Event> getAllUnderWatchRatio(float ratio, Date from, Date to) {
         var events = getEvents(from, to);
         return getAllUnderWatchRatio(ratio, events);
+    }
+
+    public static List<EventDTO> getReport(Date from, Date to, Hall hall) {
+        var events = EventDataReporter.getEvents(from, to, hall);
+
+        var result = new ArrayList<EventDTO>();
+        for (var event : events) {
+            List<Ticket> bookedTickets = new ArrayList<>();
+            for (var ticket : event.getTickets()) {
+                if (ticket.isPayed())
+                    bookedTickets.add(ticket);
+            }
+            result.add(new EventDTO(event, bookedTickets));
+        }
+        return result;
     }
 }

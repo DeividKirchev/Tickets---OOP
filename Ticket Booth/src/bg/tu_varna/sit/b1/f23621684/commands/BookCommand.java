@@ -52,20 +52,9 @@ public class BookCommand extends MenuCommand {
 
         var event = EventDataReporter.getEvent(name, date);
         if (event == null)
-            throw new EventNotFound("There is event with name " + name + " on date " + date);
+            throw new EventNotFound("There is no event with name " + name + " on date " + date);
 
-        var ticket = TicketReporter.getTicket(event, row, seat);
-        if (ticket != null)
-            throw new SeatAlreadyBooked("Seat is already booked");
-
-        var hall = event.getHall();
-        if (hall.getRows() < row)
-            throw new InvalidSeatException("Hall does not have row " + row);
-
-        if (hall.getSeatsPerRow() < seat)
-            throw new InvalidSeatException("Hall has only  " + hall.getSeatsPerRow() + " seats per row");
-
-        ticket = new Ticket(note, false, new SeatInfo(event, row, seat));
+        var ticket = new Ticket(note, false, new SeatInfo(event, row, seat));
 
         event.addTicket(ticket);
         log("Successfully booked ticket\n");

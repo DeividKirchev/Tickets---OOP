@@ -23,4 +23,9 @@ public abstract class ValueExtractor<T> implements Extractor, Value<T> {
     public void setValue(T value) {
         this.value = value;
     }
+
+    @Override
+    public void clear() {
+        this.setValue(null);
+    }
 }

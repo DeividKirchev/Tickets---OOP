@@ -36,9 +36,6 @@ public class AddEventCommand extends MenuCommand {
 
         var name = this.name.getValue();
 
-        if (EventDataReporter.getEvent(hall, date) != null)
-            throw new HallAlreadyBookedException("Hall is already booked for the date");
-
         EventList eventList = EventList.getInstance();
         eventList.add(new Event(hall, name, date));
 

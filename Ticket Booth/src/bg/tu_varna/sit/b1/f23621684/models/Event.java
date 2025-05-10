@@ -1,5 +1,9 @@
 package bg.tu_varna.sit.b1.f23621684.models;
 
+import bg.tu_varna.sit.b1.f23621684.data.reporters.TicketReporter;
+import bg.tu_varna.sit.b1.f23621684.exceptions.InvalidSeatException;
+import bg.tu_varna.sit.b1.f23621684.exceptions.SeatAlreadyBooked;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +18,7 @@ public class Event {
         this.hall = hall;
         this.name = name;
         this.date = date;
-        tickets = new ArrayList<Ticket>();
+        tickets = new ArrayList<>();
     }
 
     public Hall getHall() {
@@ -50,6 +54,17 @@ public class Event {
     }
 
     public void addTicket(Ticket t) {
+        var ticket = TicketReporter.getTicket(this, t.getSeatInfo().getRow(), t.getSeatInfo().getSeat());
+        if (ticket != null)
+            throw new SeatAlreadyBooked("Seat is already booked");
+
+        var hall = this.getHall();
+        if (hall.getRows() < t.getSeatInfo().getRow())
+            throw new InvalidSeatException("Hall does not have row " + t.getSeatInfo().getRow());
+
+        if (hall.getSeatsPerRow() < t.getSeatInfo().getSeat())
+            throw new InvalidSeatException("Hall does not have seat " + t.getSeatInfo().getSeat());
+
         this.tickets.add(t);
     }
 

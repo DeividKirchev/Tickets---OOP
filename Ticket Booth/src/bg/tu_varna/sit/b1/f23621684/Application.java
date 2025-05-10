@@ -34,8 +34,6 @@ public class Application {
     public static void main(String[] args) {
         loadHalls();
 
-        HallList hl = HallList.getInstance();
-
         Menu menu = new TicketBoothMenu(logger);
         menu.startMenu();
     }

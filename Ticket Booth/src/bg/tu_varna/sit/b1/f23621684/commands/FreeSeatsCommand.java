@@ -32,7 +32,7 @@ public class FreeSeatsCommand extends MenuCommand {
 
         var event = EventDataReporter.getEvent(name, date);
         if (event == null)
-            throw new EventNotFound("There is event with name " + name + " on date " + date);
+            throw new EventNotFound("There is no event with name " + name + " on date " + date);
         var freeTickets = TicketReporter.getFreeSeats(event);
         StringBuilder sb = new StringBuilder();
         sb.append("All free tickets for event ").append(event.getName())
